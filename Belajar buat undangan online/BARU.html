@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Undangan Metatah</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FBF6EC;
+            --surface: #F3E9D2;
+            --text: #3B2A1A;
+            --accent: #B8912B;
+            --accent2: #D9C9A3;
+            --font-h: 'Cormorant Garamond', Georgia, serif;
+            --font-b: 'Poppins', Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-b);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        .serif {
+            font-family: var(--font-h);
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .section {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 64px 24px;
+            text-align: center;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+            color: var(--accent);
+            margin: 0 0 16px;
+            font-size: 18px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            width: 40px;
+            height: 1px;
+            background: var(--accent2);
+        }
+
+        .label {
+            letter-spacing: 2px;
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .lotus {
+            color: var(--accent);
+            display: block;
+            margin: 0 auto;
+            animation: spin 40s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== Cover ===== */
+        #cover {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+            padding: 24px;
+            z-index: 50;
+            color: #F3E9D2;
+            background: radial-gradient(circle at 50% 30%, #4A3220, #1E130B 70%);
+            transition: opacity .9s, transform .9s, visibility .9s;
+        }
+
+        #cover::before {
+            content: "";
+            position: absolute;
+            inset: 14px;
+            border: 1px solid #D4AF3770;
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+        #cover.hide {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.08);
+            pointer-events: none;
+        }
+
+        #cover .label {
+            color: #D4AF37;
+        }
+
+        #cover h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        #cover .kTitle {
+            font-family: var(--font-h);
+            font-size: 44px;
+            letter-spacing: 10px;
+            padding-left: 10px;
+            color: #D4AF37;
+            font-weight: 700;
+        }
+
+        #coverNames {
+            font-family: var(--font-h);
+            font-size: 32px;
+            font-weight: 600;
+            margin: 6px 0;
+        }
+
+        #cover .pdate {
+            font-size: 14px;
+            opacity: .85;
+        }
+
+        #openBtn {
+            margin-top: 22px;
+            padding: 14px 36px;
+            border: 1px solid #D4AF37;
+            background: transparent;
+            color: #D4AF37;
+            border-radius: 30px;
+            letter-spacing: 2px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        #openBtn:hover {
+            background: #D4AF37;
+            color: #241B14;
+        }
+
+        #app {
+            opacity: 0;
+            transition: opacity .8s;
+        }
+
+        #app.show {
+            opacity: 1;
+        }
+
+        /* ===== Hero + hitung mundur ===== */
+        #home {
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, var(--surface), var(--bg) 85%);
+        }
+
+        #home h1 {
+            font-size: clamp(34px, 9vw, 52px);
+            font-weight: 600;
+            line-height: 1.15;
+            margin: 12px 0 6px;
+        }
+
+        .amp {
+            font-style: italic;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .greet {
+            font-size: 13px;
+            max-width: 440px;
+            margin: 14px auto 0;
+        }
+
+        .cdTitle {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin: 30px 0 10px;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .countdown div {
+            background: var(--surface);
+            border: 1px solid var(--accent2);
+            border-radius: 14px;
+            padding: 14px 6px;
+            width: 76px;
+        }
+
+        .countdown span {
+            display: block;
+            font-family: var(--font-h);
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--accent);
+        }
+
+        .countdown span.tick {
+            animation: tick .35s;
+        }
+
+        @keyframes tick {
+            50% {
+                transform: translateY(-4px) scale(1.12);
+            }
+        }
+
+        .countdown small {
+            font-size: 10px;
+            letter-spacing: 1px;
+            opacity: .75;
+        }
+
+        #cdMsg {
+            font-family: var(--font-h);
+            font-size: 21px;
+            color: var(--accent);
+            margin-top: 12px;
+            min-height: 30px;
+        }
+
+        /* ===== Peserta ===== */
+        .photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto;
+            background: var(--surface) center/cover;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 0 6px var(--bg), 0 0 0 7px var(--accent2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            transition: transform .4s;
+        }
+
+        .photo:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        /* ===== Acara ===== */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--accent2);
+            border-radius: 16px;
+            padding: 26px 20px;
+            text-align: left;
+            display: grid;
+            gap: 14px;
+        }
+
+        .card .row b {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .btnRow {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--accent);
+            color: var(--bg);
+            border: 1px solid var(--accent);
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 12px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .pill.ghost {
+            background: transparent;
+            color: var(--accent);
+        }
+
+        .pill:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ===== Pemutar musik ===== */
+        #musicWidget {
+            position: fixed;
+            right: 14px;
+            bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+            background: var(--surface);
+            border: 1px solid var(--accent2);
+            border-radius: 30px;
+            padding: 6px 12px 8px 8px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
+            z-index: 40;
+            font-size: 11px;
+            max-width: 230px;
+        }
+
+        #app.show~#musicWidget.ada {
+            display: flex;
+        }
+
+        #musicWidget button {
+            border: none;
+            background: var(--accent);
+            color: var(--bg);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            flex-shrink: 0;
+            font-size: 12px;
+        }
+
+        #musicWidget #stopBtn {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        #musicName {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100px;
+        }
+
+        .eq {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 14px;
+        }
+
+        .eq i {
+            width: 3px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 1px;
+        }
+
+        .playing .eq i {
+            animation: eq .8s ease-in-out infinite;
+        }
+
+        .playing .eq i:nth-child(2) {
+            animation-delay: .2s;
+        }
+
+        .playing .eq i:nth-child(3) {
+            animation-delay: .4s;
+        }
+
+        @keyframes eq {
+            50% {
+                height: 14px;
+            }
+        }
+
+        #prog {
+            position: absolute;
+            left: 16px;
+            right: 16px;
+            bottom: 3px;
+            height: 2px;
+            background: var(--accent2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        #prog i {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: var(--accent);
+        }
+
+        #toast {
+            position: fixed;
+            top: calc(14px + env(safe-area-inset-top, 0px));
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: var(--bg);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+            max-width: 90vw;
+            text-align: center;
+        }
+
+        /* ===== Transisi Scroll (Scroll Reveal) ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(45px);
+            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.15s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.3s;
+        }
+
+        @media(min-width:700px) {
+            .gGrid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="toast"></div>
+
+    <div id="cover">
+        <svg class="lotus" width="70" height="70" viewBox="0 0 100 100" data-lotus></svg>
+        <div class="label">Om Swastyastu</div>
+        <p>Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+        <h1 id="nama-tamu-cover">Bapak/Ibu/Saudara/i</h1>
+        <h2 class="serif">Upacara Manusa Yadnya</h2>
+        <div class="kTitle">METATAH</div>
+        <div id="coverNames">Nama Peserta 1 &amp; Nama Peserta 2</div>
+        <div class="pdate bind-dateFull"></div>
+        <button id="openBtn">Buka Undangan</button>
+    </div>
+
+    <div id="app">
+        <section class="section reveal" id="home">
+            <svg class="lotus" width="56" height="56" viewBox="0 0 100 100" data-lotus></svg>
+            <div class="label" style="margin-top:14px">Om Swastyastu</div>
+            <h1 id="heroNames"></h1>
+            <div class="serif" style="font-size:18px">Upacara Metatah / Mepandes</div>
+            <p class="greet bind-greeting"></p>
+            <div class="cdTitle reveal reveal-delay-1">MENUJU HARI ACARA</div>
+            <div class="countdown reveal reveal-delay-2">
+                <div><span id="cd-d">0</span><small>HARI</small></div>
+                <div><span id="cd-h">0</span><small>JAM</small></div>
+                <div><span id="cd-m">0</span><small>MENIT</small></div>
+                <div><span id="cd-s">0</span><small>DETIK</small></div>
+            </div>
+            <div id="cdMsg"></div>
+        </section>
+
+        <section class="section reveal" id="profil">
+            <div class="divider">✦</div>
+            <h3 class="serif" style="font-size:21px;">Yang Akan Melaksanakan Upacara Metatah</h3>
+            <div id="participantsWrap"
+                style="display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+            </div>
+        </section>
+
+        <section class="section reveal" id="acara">
+            <div class="divider">✦</div>
+            <h3 class="serif" style="font-size:21px;">Pelaksanaan Upacara</h3>
+            <div class="card reveal reveal-delay-1" style="margin-top:22px">
+                <div class="row"><b>ACARA</b><span class="bind-eventName"></span></div>
+                <div class="row"><b>HARI &amp; TANGGAL</b><span class="bind-dateFull"></span></div>
+                <div class="row"><b>WAKTU</b><span class="bind-timeDisplay"></span> WITA - selesai</div>
+                <div class="row"><b>TEMPAT</b><span class="bind-venue"></span></div>
+                <div class="row"><b>ALAMAT</b><span class="bind-address"></span></div>
+                <div class="btnRow">
+                    <a href="#" id="mapsBtn" target="_blank" rel="noopener" class="pill">Lihat Lokasi</a>
+                    <button class="pill ghost" id="copyBtn">Salin Alamat</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal" id="doa">
+            <div class="divider">✦</div>
+            <h3 class="serif" style="font-size:21px;">Doa &amp; Ucapan</h3>
+            <p style="margin-top:10px" class="bind-doaText"></p>
+        </section>
+
+        <section class="section reveal" id="closing" style="padding-bottom:110px">
+            <div class="serif" style="font-size:20px;">Om Shanti Shanti Shanti Om</div>
+            <p style="margin-top:14px" class="bind-closingThanks"></p>
+            <div class="serif bind-family" style="font-size:22px;margin-top:14px;font-weight:600;"></div>
+            <p style="font-size:12px;margin-top:24px;opacity:.85;">Copyright Dektungg ℗ 2026 All rights reserved</p>
+            <div style="font-size:11px;margin-top:24px;line-height:1.6;opacity:.75;">
+                <p>Lagu: Wilet</p>
+                <p>Penyanyi: Neo Nolin (Album: Neo Nolin Bali)</p>
+                <p>Pencipta &amp; Produser: I Nyoman Resa Angga Nurbawa, S.Sn., M.Sn</p>
+                <p>Hak Cipta ℗ 2026 I Nyoman Resa Angga Nurbawa</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Pemutar musik -->
+    <div id="musicWidget">
+        <button id="playBtn" aria-label="Putar musik">▶</button>
+        <button id="stopBtn" aria-label="Hentikan musik">■</button>
+        <div class="eq"><i></i><i></i><i></i></div>
+        <span id="musicName"></span>
+        <div id="prog"><i></i></div>
+    </div>
+
+    <script>
+        const LOTUS = '<g fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="50" cy="50" rx="8" ry="36"/><ellipse cx="50" cy="50" rx="8" ry="36" transform="rotate(45 50 50)"/><ellipse cx="50" cy="50" rx="8" ry="36" transform="rotate(90 50 50)"/><ellipse cx="50" cy="50" rx="8" ry="36" transform="rotate(135 50 50)"/><circle cx="50" cy="50" r="7" fill="currentColor"/></g>';
+
+        const cfg = {
+            participants: [
+                { name: 'Ida Bagus Dwira Adnyana. S.M', father: 'Ida Bagus Surya Miasa S.E', mother: 'Ida Ayu Agung Evi Budiani S.E', photo: 'Image/GusWira.jpeg' },
+                { name: 'Ida Bagus Ari Pradana', father: 'Ida Bagus Surya Miasa S.E', mother: 'Ida Ayu Agung Evi Budiani S.E', photo: 'Image/GusAri.jpeg' }
+            ],
+            family: 'Keluarga Besar',
+            eventName: 'Metatah / Mepandes',
+            date: '2026-10-10',
+            time: '08:00',
+            venue: 'Griya Anyar Kapal',
+            address: 'Jalan Widuri Nomor 17, Desa Kapal, Kecamatan Mengwi, Kabupaten Badung',
+            mapsUrl: 'https://maps.app.goo.gl/SRzhonosCQPFWb6d9',
+            greeting: 'Atas Asung Kertha Wara Nugraha Ida Sang Hyang Widhi Wasa, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dalam upacara Manusa Yadnya Metatah/Mepandes.',
+            doaText: 'Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu pada upacara ini.',
+            closingThanks: 'Atas kehadiran dan doa restunya, kami sekeluarga mengucapkan terima kasih.',
+            music: { name: 'WiletMusik', src: 'Music/WiletMusik.mp3' }
+        };
+
+        const $ = id => document.getElementById(id);
+        const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const bgMusic = new Audio();
+        bgMusic.loop = true;
+        bgMusic.preload = 'auto';
+
+        function showToast(m) {
+            const t = $('toast'); t.textContent = m; t.classList.add('show');
+            clearTimeout(showToast.t); showToast.t = setTimeout(() => t.classList.remove('show'), 2200);
+        }
+
+        function eventDate() { return new Date(cfg.date + 'T' + cfg.time + ':00+08:00'); }
+        function fmtDate() {
+            try { return new Date(cfg.date + 'T00:00').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
+            catch (e) { return cfg.date; }
+        }
+
+        function render() {
+            document.querySelectorAll('[data-lotus]').forEach(s => s.innerHTML = LOTUS);
+            const set = (cls, val) => document.querySelectorAll('.' + cls).forEach(e => e.textContent = val);
+            set('bind-family', cfg.family); set('bind-eventName', cfg.eventName);
+            set('bind-venue', cfg.venue); set('bind-address', cfg.address);
+            set('bind-greeting', cfg.greeting); set('bind-doaText', cfg.doaText); set('bind-closingThanks', cfg.closingThanks);
+            set('bind-dateFull', fmtDate()); set('bind-timeDisplay', cfg.time.replace(':', '.'));
+
+            const names = cfg.participants.map(p => p.name);
+            $('coverNames').textContent = names.join(' & ');
+            $('heroNames').innerHTML = names.map(esc).join(' <span class="amp">&amp;</span> ');
+
+            $('participantsWrap').innerHTML = cfg.participants.map(p =>
+                '<div style="max-width:150px;text-align:center"><div class="photo">' + (p.photo ? '' : '🙏') + '</div>' +
+                '<div class="serif" style="font-size:22px;font-weight:600;margin-top:14px;line-height:1.2">' + esc(p.name) + '</div>' +
+                '<p style="font-size:12px;margin-top:4px">Putra dari</p>' +
+                '<p class="serif" style="font-size:15px">' + esc(p.father) + ' &amp; ' + esc(p.mother) + '</p></div>').join('');
+
+            document.querySelectorAll('.photo').forEach((el, i) => {
+                const p = cfg.participants[i];
+                if (p && p.photo) el.style.backgroundImage = 'url("' + encodeURI(p.photo) + '")';
+            });
+
+            const mb = $('mapsBtn'); mb.href = cfg.mapsUrl || '#'; mb.style.display = cfg.mapsUrl ? 'inline-block' : 'none';
+
+            // Musik
+            const has = !!(cfg.music && cfg.music.src);
+            $('musicWidget').classList.toggle('ada', has);
+            $('musicName').textContent = '♪ ' + ((cfg.music && cfg.music.name) || 'Musik');
+            if (has) bgMusic.src = cfg.music.src;
+
+            // Personalisasi Nama Tamu dari URL (?to=...)
+            const urlParams = new URLSearchParams(window.location.search);
+            const namaTamu = urlParams.get('to');
+            const elemenNama = $('nama-tamu-cover');
+
+            if (namaTamu) {
+                elemenNama.textContent = decodeURIComponent(namaTamu.replace(/\+/g, ' '));
+            } else {
+                elemenNama.textContent = "Bapak/Ibu/Saudara/i";
+            }
+        }
+
+        function syncPlay() {
+            const p = !bgMusic.paused;
+            $('musicWidget').classList.toggle('playing', p);
+            $('playBtn').textContent = p ? '❚❚' : '▶';
+            $('playBtn').setAttribute('aria-label', p ? 'Jeda musik' : 'Putar musik');
+        }
+        function playMusic() { bgMusic.play().then(syncPlay).catch(() => showToast('Lagu tidak bisa diputar. Cek nama file MP3-nya.')); }
+        function stopMusic() { bgMusic.pause(); bgMusic.currentTime = 0; $('prog').firstElementChild.style.width = '0'; syncPlay(); }
+
+        bgMusic.addEventListener('play', syncPlay);
+        bgMusic.addEventListener('pause', syncPlay);
+        bgMusic.addEventListener('timeupdate', () => { if (bgMusic.duration) $('prog').firstElementChild.style.width = (bgMusic.currentTime / bgMusic.duration * 100) + '%'; });
+
+        function setNum(id, v) {
+            const el = $(id);
+            if (el.textContent !== String(v)) { el.textContent = v; el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick'); }
+        }
+        function tickCountdown() {
+            const start = eventDate().getTime(), end = start + 5 * 36e5, now = Date.now();
+            const diff = Math.max(0, start - now);
+            setNum('cd-d', Math.floor(diff / 864e5));
+            setNum('cd-h', Math.floor(diff / 36e5 % 24));
+            setNum('cd-m', Math.floor(diff / 6e4 % 60));
+            setNum('cd-s', Math.floor(diff / 1000 % 60));
+            $('cdMsg').textContent = now >= end ? 'Upacara telah dilaksanakan. Terima kasih atas doa restunya.' : now >= start ? 'Upacara sedang berlangsung' : '';
+        }
+
+        function openInvitation() {
+            $('cover').classList.add('hide');
+            setTimeout(() => { $('cover').style.display = 'none'; }, 950);
+            $('app').classList.add('show');
+            if (cfg.music && cfg.music.src) playMusic();
+        }
+
+        function initScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            render();
+            tickCountdown();
+            setInterval(tickCountdown, 1000);
+            initScrollReveal();
+
+            $('openBtn').addEventListener('click', openInvitation);
+            $('playBtn').addEventListener('click', () => bgMusic.paused ? playMusic() : (bgMusic.pause(), syncPlay()));
+            $('stopBtn').addEventListener('click', stopMusic);
+
+            $('copyBtn').addEventListener('click', () => {
+                const t = cfg.venue + ', ' + cfg.address;
+                (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
+                    .then(() => showToast('Alamat disalin')).catch(() => showToast(t));
+            });
+        });
+    </script>
+</body>
+
+</html>
