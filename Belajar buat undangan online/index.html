@@ -620,6 +620,20 @@
             catch (e) { return cfg.date; }
         }
 
+        // Eksekusi penarikan nama tamu dari URL sedini mungkin secara instan
+        function initGuestName() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const namaTamu = urlParams.get('to');
+                const elemenNama = $('nama-tamu-cover');
+                if (elemenNama && namaTamu) {
+                    elemenNama.textContent = decodeURIComponent(namaTamu.replace(/\+/g, ' '));
+                }
+            } catch (e) {
+                console.error("Gagal membaca parameter URL:", e);
+            }
+        }
+
         function render() {
             document.querySelectorAll('[data-lotus]').forEach(s => s.innerHTML = LOTUS);
             const set = (cls, val) => document.querySelectorAll('.' + cls).forEach(e => e.textContent = val);
@@ -650,17 +664,6 @@
             $('musicWidget').classList.toggle('ada', has);
             $('musicName').textContent = '♪ ' + ((cfg.music && cfg.music.name) || 'Musik');
             if (has) bgMusic.src = cfg.music.src;
-
-            // Personalisasi Nama Tamu dari URL (?to=...)
-            const urlParams = new URLSearchParams(window.location.search);
-            const namaTamu = urlParams.get('to');
-            const elemenNama = $('nama-tamu-cover');
-
-            if (namaTamu) {
-                elemenNama.textContent = decodeURIComponent(namaTamu.replace(/\+/g, ' '));
-            } else {
-                elemenNama.textContent = "Bapak/Ibu/Saudara/i";
-            }
         }
 
         function syncPlay() {
@@ -709,7 +712,11 @@
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         }
 
+        // Langsung jalankan pembacaan nama sebelum menunggu seluruh dokumen selesai sepenuhnya
+        initGuestName();
+
         document.addEventListener('DOMContentLoaded', () => {
+            initGuestName(); // Jalankan sekali lagi saat DOM siap untuk memastikan elemen sudah ada
             render();
             tickCountdown();
             setInterval(tickCountdown, 1000);
